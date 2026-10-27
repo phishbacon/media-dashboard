@@ -1,0 +1,9 @@
+services:
+  media-dashboard:
+    image: ghcr.io/phishbacon/media-dashboard:latest
+    container_name: media-dashboard
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./services.json:/config/services.json:ro
+    restart: unless-stopped

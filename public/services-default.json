@@ -1,0 +1,9 @@
+{
+  "title": "Christian's Media",
+  "cards": [
+    { "name": "Watch", "url": "http://localhost:8096", "icon": "film", "description": "Movies and TV" },
+    { "name": "Request", "url": "http://localhost:5055", "icon": "request", "description": "Request movies and TV" },
+    { "name": "Audiobooks", "url": "http://localhost:4000", "icon": "audio", "description": "Listen anywhere" },
+    { "name": "Ebooks", "url": "http://localhost:8083", "icon": "book" }
+  ]
+}
