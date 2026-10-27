@@ -1,13 +1,15 @@
-# Christian's Media
+# Christian Media
 
-A mobile-first dashboard for a home media server. Four cards — Watch, Request,
-Audiobooks, Ebooks — each linking to the service you run for it. Static export
-served by nginx, one Docker image, card config mounted from the host.
+A mobile-first dashboard for a home media server. It shows four cards — Watch,
+Request, Audiobooks, and Ebooks — each one a link to the service you run for it.
+The site is a static export served by nginx in a single Docker image, and the
+card configuration is mounted in from the host so you can change it without
+rebuilding anything.
 
 ## Quick start
 
 ```bash
-cp services.json.example services.json   # then edit your card URLs
+cp services.json.example services.json   # then edit the card URLs to your own
 docker run -d \
   --name media-dashboard \
   -p 3000:3000 \
@@ -32,7 +34,7 @@ changes.
 
 ```json
 {
-  "title": "Christian's Media",
+  "title": "Christian Media",
   "cards": [
     {
       "name": "Watch",
@@ -52,7 +54,7 @@ changes.
 
 | Field       | Required | Notes                                                            |
 | ----------- | -------- | ---------------------------------------------------------------- |
-| `title`     | no       | Dashboard heading. Defaults to `Christian's Media`.               |
+| `title`     | no       | Dashboard heading. Defaults to `Christian Media`.               |
 | `cards`     | yes      | Array of cards, rendered in order. Add, remove, or reorder freely. |
 | `cards[].name`   | yes | Card label.                                                  |
 | `cards[].url`    | yes | Destination, `http` or `https`. Same-tab link.                |
@@ -77,8 +79,9 @@ inside without cropping.
 
 ## Ports and volumes
 
-- **Port** `3000/tcp` — the dashboard.
-- **Volume** `/config/services.json` (bind mount, read-only) — card config.
+- **Port** `3000/tcp` serves the dashboard.
+- **Volume** `/config/services.json` (a read-only bind mount) holds the card
+  configuration.
 
 ## Development
 

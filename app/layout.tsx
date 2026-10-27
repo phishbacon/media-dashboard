@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Christian's Media",
+  title: "Christian Media",
   description: "Dashboard for my media server.",
 };
 

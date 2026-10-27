@@ -11,7 +11,7 @@ export type ServicesConfig = {
   cards: Card[];
 };
 
-export const DEFAULT_TITLE = "Christian's Media";
+export const DEFAULT_TITLE = "Christian Media";
 
 export function parseServices(raw: string): ServicesConfig {
   let data: unknown;
