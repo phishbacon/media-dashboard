@@ -1,5 +1,5 @@
 {
-  "title": "Christian Media",
+  "title": "Media Dashboard",
   "cards": [
     { "name": "Watch", "url": "http://localhost:8096", "icon": "film", "thumbnail": "/images/watch.svg", "description": "Movies and TV" },
     { "name": "Request", "url": "http://localhost:5055", "icon": "request", "thumbnail": "/images/request.png", "description": "Request movies and TV" },

@@ -1,4 +1,4 @@
-# Christian Media
+# Media Dashboard
 
 A mobile-first dashboard for a home media server. It shows four cards — Watch,
 Request, Audiobooks, and Ebooks — each one a link to the service you run for it.
@@ -17,13 +17,38 @@ docker run -d \
   ghcr.io/phishbacon/media-dashboard:latest
 ```
 
-Or with Compose:
+Open http://localhost:3000.
 
-```bash
-docker compose up -d
+## Docker Compose
+
+The repository ships a `docker-compose.yml`, so the whole stack is one file
+next to your config:
+
+```yaml
+services:
+  media-dashboard:
+    image: ghcr.io/phishbacon/media-dashboard:latest
+    container_name: media-dashboard
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./services.json:/config/services.json:ro
+    restart: unless-stopped
 ```
 
-Open http://localhost:3000.
+Put your `services.json` beside it (copy `services.json.example` to start),
+then:
+
+```bash
+docker compose up -d      # start
+docker compose pull       # pick up a new image
+docker compose restart    # restart
+docker compose logs -f    # follow the nginx logs
+```
+
+Card changes are picked up on page reload — no rebuild and no restart, because
+the config is a bind mount, not part of the image. To move the dashboard to
+another host port, change the left side of `"3000:3000"`.
 
 ## Configuration
 
@@ -34,7 +59,7 @@ changes.
 
 ```json
 {
-  "title": "Christian Media",
+  "title": "Media Dashboard",
   "cards": [
     {
       "name": "Watch",
@@ -54,7 +79,7 @@ changes.
 
 | Field       | Required | Notes                                                            |
 | ----------- | -------- | ---------------------------------------------------------------- |
-| `title`     | no       | Dashboard heading. Defaults to `Christian Media`.               |
+| `title`     | no       | Dashboard heading. Defaults to `Media Dashboard`.               |
 | `cards`     | yes      | Array of cards, rendered in order. Add, remove, or reorder freely. |
 | `cards[].name`   | yes | Card label.                                                  |
 | `cards[].url`    | yes | Destination, `http` or `https`. Same-tab link.                |
