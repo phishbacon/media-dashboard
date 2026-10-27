@@ -44,7 +44,7 @@ changes.
       "name": "Ebooks",
       "url": "http://localhost:8083",
       "icon": "book",
-      "thumbnail": "/images/ebooks.png"
+      "thumbnail": "/images/ebooks.svg"
     }
   ]
 }
@@ -57,7 +57,7 @@ changes.
 | `cards[].name`   | yes | Card label.                                                  |
 | `cards[].url`    | yes | Destination, `http` or `https`. Same-tab link.                |
 | `cards[].icon`   | no  | `film`, `request`, `audio`, `book`, `tv`, `music`. Falls back to `film`. |
-| `cards[].thumbnail` | no | Image URL for the card, fetched by the browser.               |
+| `cards[].thumbnail` | no | Card image: an absolute URL or a local path under `/images/`. |
 | `cards[].description` | no | One line under the name. Empty or missing shows nothing.     |
 
 Unknown keys are ignored. A malformed file shows an error screen in the
@@ -65,10 +65,15 @@ browser with the exact parse error — fix the file and reload.
 
 ## Card images
 
-The `thumbnail` URL from `services.json`, fetched directly by your browser —
-so it works with your network position and session. If it is missing,
-unreachable, or fails to load, the card's category icon shows instead.
-Cards are uniform squares; images fit inside without cropping.
+The `thumbnail` value is either an absolute URL — fetched directly by your
+browser, so it works with your network position and session — or a local path
+like `/images/ebooks.svg`: drop your own file in `public/images/` and reference
+it. Bundled examples: `watch.svg`, `request.png`, `audiobooks.svg`,
+`ebooks.svg`.
+
+If the value is missing, the path doesn't exist, or the image fails to load,
+the card's category icon shows instead. Cards are uniform squares; images fit
+inside without cropping.
 
 ## Ports and volumes
 
