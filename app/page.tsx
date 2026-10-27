@@ -31,12 +31,18 @@ function hostname(url: string): string {
 
 /**
  * Card image: the `thumbnail` URL from services.json, fetched by the browser.
- * Missing or unreachable -> nothing rendered, the category icon shows through.
+ * Returns null when there is no thumbnail; reports load failure upward so the
+ * card can show the category icon instead (the icon never shows through a
+ * transparent image).
  */
-function CardImage({ card }: { card: Card }) {
-  const [failed, setFailed] = useState(false);
-
-  if (!card.thumbnail || failed) return null;
+function CardImage({
+  card,
+  onError,
+}: {
+  card: Card;
+  onError: () => void;
+}) {
+  if (!card.thumbnail) return null;
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
@@ -44,27 +50,32 @@ function CardImage({ card }: { card: Card }) {
       alt=""
       loading="lazy"
       className="absolute inset-0 h-full w-full object-contain"
-      onError={() => setFailed(true)}
+      onError={onError}
     />
   );
 }
 
 function ServiceCard({ card }: { card: Card }) {
+  const [imageFailed, setImageFailed] = useState(false);
   const Icon = ICONS[card.icon ?? ""] ?? Clapperboard;
+  // Fallback icon only when there is no image or it failed to load.
+  const showIcon = !card.thumbnail || imageFailed;
   return (
     <a
       href={card.url}
       className="group block overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900 transition duration-200 hover:-translate-y-0.5 hover:border-zinc-600 hover:shadow-lg hover:shadow-black/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400"
     >
       <div className="relative aspect-square w-full bg-gradient-to-br from-zinc-800 to-zinc-950">
-        <div className="absolute inset-0 flex items-center justify-center">
-          <Icon
-            aria-hidden
-            className="h-14 w-14 text-zinc-600 transition group-hover:text-zinc-500"
-            strokeWidth={1.5}
-          />
-        </div>
-        <CardImage card={card} />
+        {showIcon && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <Icon
+              aria-hidden
+              className="h-14 w-14 text-zinc-600 transition group-hover:text-zinc-500"
+              strokeWidth={1.5}
+            />
+          </div>
+        )}
+        <CardImage card={card} onError={() => setImageFailed(true)} />
       </div>
       <div className="flex items-baseline justify-between gap-2 px-4 pt-3">
         <span className="truncate text-base font-semibold text-zinc-100">
